@@ -1,0 +1,37 @@
+{{ define "main" }}
+<content>
+  {{ if .Data.Singular }}
+  <h3 style="margin-bottom:0">Filtering for "{{ .Title }}"</h3>
+  <small>
+    <a href="{{ "archive" | relURL }}">Remove filter</a>
+  </small>
+  {{else}}
+  <small>
+    <p>
+    <div>
+      {{ range .Site.Taxonomies.tags }}
+      <a href="{{ .Page.Permalink }}">#{{ .Page.Title }}</a>&nbsp;
+      {{ end }}
+    </div>
+</p>
+  </small>
+  {{ end }}
+  {{ range .Site.RegularPages.GroupByDate "2006" }}
+        <p>{{ .Key }}</p>
+        <ul class="blog-posts">
+        {{ range .Pages }}
+        <li>
+            <span>
+              <i>
+                <time datetime='{{ .Date.Format "2006-01-02" }}' pubdate>
+                  {{ .Date.Format (default "02 Jan, 2006" .Site.Params.dateFormat) }}
+                </time>
+              </i>
+            </span>
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+          </li>
+        {{ end }}
+    </ul>
+  {{ end }}
+</content>
+{{ end }}
